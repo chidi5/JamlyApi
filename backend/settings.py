@@ -18,7 +18,7 @@ import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
+PROJECT_ROOT = os.path.dirname(BASE_DIR)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'base',
     'ckeditor',
+    'django_extensions',
 ]
 
 REST_FRAMEWORK = {
@@ -194,7 +195,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
-MEDIA_ROOT = '/media/'
+#MEDIA_ROOT = '/media/'
+MEDIA_ROOT = os.path.join(PROJECT_ROOT, '/media/')
 MEDIA_URL = '/media/'
 
 STATIC_URL = '/static/'

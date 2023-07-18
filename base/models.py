@@ -43,7 +43,7 @@ class UserManager(BaseUserManager):
 
 
 class User(AbstractUser):
-    id = models.IntegerField(primary_key=True, editable=False)
+    id = models.BigIntegerField(primary_key=True, editable=False)
     username = None
     email = models.EmailField(unique=True)
     accepts_marketing = models.BooleanField(default=False)
@@ -88,7 +88,7 @@ class CustomerManager(models.Manager):
 class Customer(User):
 
     #objects = CustomerManager()
-    customer_id = models.IntegerField(primary_key=True, editable=False)
+    customer_id = models.BigIntegerField(primary_key=True, editable=False)
 
     def save(self, *args, **kwargs):
         if not self.customer_id:  
@@ -186,7 +186,7 @@ class Customer(User):
 
 
 class CustomerAddress(models.Model):
-    id = models.IntegerField(primary_key=True, editable=False)
+    id = models.BigIntegerField(primary_key=True, editable=False)
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE, blank=True, null=True)
     street_address = models.CharField(max_length=100)
     city = models.CharField(max_length=100)
@@ -205,7 +205,7 @@ class CustomerAddress(models.Model):
 
 #####SHOP#####
 class Shop(models.Model):
-    id = models.IntegerField(primary_key=True, editable=False)
+    id = models.BigIntegerField(primary_key=True, editable=False)
     address = models.CharField(max_length=255, blank=True, null=True)
     city = models.CharField(max_length=50, blank=True, null=True)
     state = models.CharField(max_length=50, blank=True, null=True)
@@ -238,7 +238,7 @@ class Shop(models.Model):
 
 #####PRODUCT, COLLECTION, AND ORDER#####
 class Collection(models.Model):
-    id = models.IntegerField(primary_key=True, editable=False)
+    id = models.BigIntegerField(primary_key=True, editable=False)
     shop = models.ForeignKey(Shop, on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
     description = models.TextField(blank=True, null=True)
@@ -265,7 +265,7 @@ class Product(models.Model):
         ('PUBLISHED', 'Published'),
         ('DRAFT', 'Draft'),
     )
-    id = models.IntegerField(primary_key=True, editable=False)
+    id = models.BigIntegerField(primary_key=True, editable=False)
     shop = models.ForeignKey(Shop, on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
     description = RichTextField(blank=True, null=True)
@@ -294,7 +294,7 @@ class Product(models.Model):
 
 
 class ProductImage(models.Model):
-    id = models.IntegerField(primary_key=True, editable=False)
+    id = models.BigIntegerField(primary_key=True, editable=False)
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='images')
     image = models.ImageField(upload_to='product_images', blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -307,7 +307,7 @@ class ProductImage(models.Model):
 
 
 class ProductOption(models.Model):
-    id = models.IntegerField(primary_key=True, editable=False)
+    id = models.BigIntegerField(primary_key=True, editable=False)
     product = models.ForeignKey(Product, related_name="options", on_delete=models.CASCADE)
     name = models.CharField(max_length=255, )
     created_at = models.DateTimeField(auto_now_add=True, editable=False)
@@ -322,7 +322,7 @@ class ProductOption(models.Model):
         
 
 class OptionValue(models.Model):
-    id = models.IntegerField(primary_key=True, editable=False)
+    id = models.BigIntegerField(primary_key=True, editable=False)
     name = models.CharField(max_length=255)
     option = models.ForeignKey(ProductOption, related_name="values", on_delete=models.CASCADE)
 
@@ -336,7 +336,7 @@ class OptionValue(models.Model):
     
 
 class ProductVariant(models.Model):
-    id = models.IntegerField(primary_key=True, editable=False)
+    id = models.BigIntegerField(primary_key=True, editable=False)
     name = models.CharField(max_length=255)
     sku = models.CharField(max_length=255, blank=True, null=True)
     price = models.DecimalField(max_digits=10, decimal_places=2, default=0)
@@ -361,7 +361,7 @@ class Order(models.Model):
         ('DELIVERED', 'Delivered'),
         ('CANCELLED', 'Cancelled'),
     )
-    id = models.IntegerField(primary_key=True, editable=False)
+    id = models.BigIntegerField(primary_key=True, editable=False)
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
     shipping_address = models.ForeignKey(CustomerAddress, on_delete=models.CASCADE, null=True)
     status = models.CharField(max_length=20, choices=ORDER_STATUS, default='PENDING')
@@ -384,7 +384,7 @@ class Order(models.Model):
 
 
 class OrderItem(models.Model):
-    id = models.IntegerField(primary_key=True, editable=False)
+    id = models.BigIntegerField(primary_key=True, editable=False)
     order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='items')
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     variant = models.ForeignKey(ProductVariant, on_delete=models.CASCADE, null=True)
